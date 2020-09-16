@@ -1,0 +1,89 @@
+Jupyter Notebookmultivariate Last Checkpoint: 09/06/2019 (autosaved)
+
+
+Markdown
+%%html
+'<iframe width="560" height="315" src="https://www.youtube.com/embed/zITIFTsivN8" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'
+%%html
+'<iframe width="560" height="315" src="https://www.youtube.com/embed/zITIFTsivN8" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'
+''
+Multivariate Regression
+multivariate regression is a technique that estimates a single regression model with more than one outcome variable. When there is more than one predictor variable in a multivariate regression model, the model is a multivariate multiple regression.
+Multiple linear regression
+is what you can use when you have a bunch of different independent variables!
+Multiple regression analysis has three main uses.
+Multiple regression analysis has three main uses.
+You can look at the strength of the effect of the independent variables on the dependent variable.
+
+You can use it to ask how much the dependent variable will change if the independent variables are changed.
+
+You can also use it to predict trends and future values.
+There are some assumptions that absolutely have to be true:
+There is a linear relationship between the dependent variable and the independent variables.
+The independent variables aren’t too highly correlated with each other.
+Your observations for the dependent variable are selected independently and at random.
+Regression residuals are normally distributed.
+For More detalied Explaining
+Simple vs Multiple regression
+
+multivariate-regression
+
+Task1: problem of predicting home price in monroe, 
+Below is the table containing home prices. Here price depends on area (square feet), bed rooms and age of the home (in years). Given these prices we have to predict prices of new homes based on area, bed rooms and age.
+
+
+
+Given these home prices find out price of a home that has,
+3000 sqr ft area, 3 bedrooms, 40 year old
+
+2500 sqr ft area, 4 bedrooms, 5 year old
+
+We will use regression with multiple variables here. Price can be calculated using following equation,
+
+
+
+Here area, bedrooms, age are called independant variables or features whereas price is a dependant variable
+
+import pandas as pd
+import numpy as np
+from sklearn import linear_model
+df = pd.read_csv('homeprices.csv')
+df
+area	bedrooms	age	price
+0	2600	3.0	20	550000
+1	3000	4.0	15	565000
+2	3200	NaN	18	610000
+3	3600	3.0	30	595000
+4	4000	5.0	8	760000
+5	4100	6.0	8	810000
+Data Preprocessing: Fill NA values with median value of a column
+
+df.bedrooms.median()
+4.0
+df.bedrooms = df.bedrooms.fillna(df.bedrooms.median())
+df
+area	bedrooms	age	price
+0	2600	3.0	20	550000
+1	3000	4.0	15	565000
+2	3200	4.0	18	610000
+3	3600	3.0	30	595000
+4	4000	5.0	8	760000
+5	4100	6.0	8	810000
+reg = linear_model.LinearRegression()
+reg.fit(df.drop('price',axis='columns'),df.price)
+LinearRegression(copy_X=True, fit_intercept=True, n_jobs=None,
+         normalize=False)
+reg.coef_
+array([  112.06244194, 23388.88007794, -3231.71790863])
+reg.intercept_
+221323.0018654043
+Find price of home with 3000 sqr ft area, 3 bedrooms, 40 year old
+reg.predict([[3000, 3, 40]])
+array([498408.25158031])
+112.06244194*3000 + 23388.88007794*3 + -3231.71790863*40 + 221323.00186540384
+498408.25157402386
+Find price of home with 2500 sqr ft area, 4 bedrooms, 5 year old
+reg.predict([[2500, 4, 5]])
+array([578876.03748933])
+Task2
+  
